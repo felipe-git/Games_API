@@ -9,11 +9,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
-public class IvoriesOfLierGamer {
+public class IvoriesOfLierPlayer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -21,11 +20,12 @@ public class IvoriesOfLierGamer {
 	private Integer userId;
 	private Integer ivoriesOfLierGameId;
 	private boolean playing;
-	private Integer order;
+	private Integer orderValue;
 	private DecisionType decisionType;
 	private Integer decisionNumberOfCubes;
 	private Integer decisionCubeValue;
-	
+
+	@OneToMany(targetEntity=IvoriesOfLierCube.class, mappedBy="gamerId", fetch = FetchType.LAZY)
 	private List<IvoriesOfLierCube> cubes;
 	
 	public Integer getId() {
@@ -60,12 +60,12 @@ public class IvoriesOfLierGamer {
 		this.playing = playing;
 	}
 
-	public Integer getOrder() {
-		return order;
+	public Integer getOrderValue() {
+		return orderValue;
 	}
 
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setOrderValue(Integer orderValue) {
+		this.orderValue = orderValue;
 	}
 
 	public DecisionType getDecisionType() {
@@ -92,14 +92,12 @@ public class IvoriesOfLierGamer {
 		this.decisionCubeValue = decisionCubeValue;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "gamerId", nullable = false)
-	private List<IvoriesOfLierCube> getCubes() {
+	//@JoinColumn(name = "gamerId", nullable = false)
+	public List<IvoriesOfLierCube> getCubes() {
 		return cubes;
 	}
 	
-	@SuppressWarnings("unused")
-	private void setCubes(List<IvoriesOfLierCube> cubes) {
+	public void setCubes(List<IvoriesOfLierCube> cubes) {
 		this.cubes = cubes;
 	}
 

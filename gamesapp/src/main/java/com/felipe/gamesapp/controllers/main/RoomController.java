@@ -3,7 +3,7 @@ package com.felipe.gamesapp.controllers.main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,7 +24,7 @@ public class RoomController {
 		return roomRepository.findAll();
 	}
 
-	@PutMapping(path="/newroom")
+	@PostMapping(path="/newroom")
 	public @ResponseBody String createRoom (@RequestParam String roomName,
 			@RequestParam int ownerId, @RequestParam Games game) {
 		

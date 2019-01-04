@@ -8,5 +8,5 @@ import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierCube;
 
 public interface IvoriesOfLierCubeRepository extends CrudRepository<IvoriesOfLierCube, Integer> {
 
-	public List<IvoriesOfLierCube> findByUserIdAndIvoriesOfLierGameIdAndValue(int userId, int ivoriesOfLierGameId, int value);
+	public List<IvoriesOfLierCube> findByIvoriesOfLierGameIdAndValue(int ivoriesOfLierGameId, int value);
 }

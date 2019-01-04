@@ -12,7 +12,8 @@ public class IvoriesOfLierGame {
 	private Integer id;
 
 	private Integer roomId;
-	private Integer userIdLastMoved;
+	private Integer userIdPreviousMove;
+	private Integer userIdCurrentMove;
 
 	public Integer getId() {
 		return id;
@@ -30,11 +31,19 @@ public class IvoriesOfLierGame {
 		this.roomId = roomId;
 	}
 
-	public Integer getUserIdLastMoved() {
-		return userIdLastMoved;
+	public Integer getUserIdPreviousMove() {
+		return userIdPreviousMove;
 	}
 
-	public void setUserIdLastMoved(Integer userIdLastMoved) {
-		this.userIdLastMoved = userIdLastMoved;
+	public void setUserIdPreviousMove(Integer userIdPreviousMove) {
+		this.userIdPreviousMove = userIdPreviousMove;
+	}
+
+	public Integer getUserIdCurrentMove() {
+		return userIdCurrentMove;
+	}
+
+	public void setUserIdCurrentMove(Integer userIdCurrentMove) {
+		this.userIdCurrentMove = userIdCurrentMove;
 	}
 }
