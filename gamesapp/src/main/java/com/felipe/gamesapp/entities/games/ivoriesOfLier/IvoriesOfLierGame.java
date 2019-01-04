@@ -12,7 +12,7 @@ public class IvoriesOfLierGame {
 	private Integer id;
 
 	private Integer roomId;
-	private Integer lastMoveUserId;
+	private Integer userIdLastMoved;
 
 	public Integer getId() {
 		return id;
@@ -30,11 +30,11 @@ public class IvoriesOfLierGame {
 		this.roomId = roomId;
 	}
 
-	public Integer getLastMoveUserId() {
-		return lastMoveUserId;
+	public Integer getUserIdLastMoved() {
+		return userIdLastMoved;
 	}
 
-	public void setLastMoveUserId(Integer lastMoveUserId) {
-		this.lastMoveUserId = lastMoveUserId;
+	public void setUserIdLastMoved(Integer userIdLastMoved) {
+		this.userIdLastMoved = userIdLastMoved;
 	}
 }

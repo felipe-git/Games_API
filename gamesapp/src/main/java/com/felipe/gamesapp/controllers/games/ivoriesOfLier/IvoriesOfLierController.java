@@ -58,7 +58,7 @@ public class IvoriesOfLierController {
 
 		Random random = new Random();
 		// utworzenie graczy
-		// pobranie ich z pokoju
+		// pobranie ich z pokoju TODO
 		Iterable<User> users = userRepository.findAll();
 		int order = 1;
 		for(User user : users) {
@@ -66,20 +66,21 @@ public class IvoriesOfLierController {
 			gamer.setUserId(user.getId());
 			gamer.setIvoriesOfLierGameId(game.getId());
 			gamer.setOrder(order);
+			gamer.setPlaying(true);
 			gamerRepository.save(gamer);
 			order++;
 			// tworzenie kości dla gracza
 			for(int i = 0; i <= 5; i++) {
 				IvoriesOfLierCube cube = new IvoriesOfLierCube();
 				cube.setIvoriesOfLierGameId(game.getId());
-				cube.setUserId(gamer.getId());
-				cube.setNumber(random.nextInt(5) + 1);
+				cube.setGamerId(gamer.getId());
+				cube.setValue(random.nextInt(5) + 1);
 				cubeRepository.save(cube);
 			}
 		}
 		
 		// następny ruch
-		game.setLastMoveUserId(users.iterator().next().getId());
+		game.setUserIdLastMoved(users.iterator().next().getId());
 		gameRepository.save(game);
 		
 		return "Game started!";
@@ -89,62 +90,67 @@ public class IvoriesOfLierController {
 	public @ResponseBody String move(@RequestParam int gamerId,
 			@RequestParam int gameId,
 			@RequestParam DecisionType decisionType,
-			@RequestParam int decisionNo,
-			@RequestParam int decisionVal) {
+			@RequestParam int numberOfCubes,
+			@RequestParam int cubeValue) {
 		
 		// pobranie gry
-		Optional<IvoriesOfLierGame> game = gameRepository.findById(gameId);
-		// pobranie poprzedniego ruchu
+		IvoriesOfLierGame game = gameRepository.findById(gameId).get();
+		// pobranie wszystkich graczy
+		List<IvoriesOfLierGamer> playingGamers = gamerRepository.findByIvoriesOfLierGameIdAndPlayingOrderByOrder(gameId, true);
+		// pobranie gracza z poprzedniego ruchu
+		IvoriesOfLierGamer lastMoveGamer = null;
+		if(game.getUserIdLastMoved() != null) {
+			lastMoveGamer = playingGamers.stream().filter(g -> g.getId().equals(game.getUserIdLastMoved())).findFirst().orElse(null);
+		}
 		
 		// pobranie kości danego numeru
-		List<IvoriesOfLierCube> cubes = cubeRepository.findByUserIdAndIvoriesOfLierGameIdAndNumber(gamerId, gameId, decisionVal);
+		List<IvoriesOfLierCube> cubes = cubeRepository.findByUserIdAndIvoriesOfLierGameIdAndValue(gamerId, gameId, cubeValue);
 		switch(decisionType) {
 			case AT_LEAST:
-				return nextPlayerMove(game.get());
+				return nextPlayerMove(game, playingGamers);
 			case LESS_THAN:
+				if(lastMoveGamer == null) {
+					return "błąd! pierwszy ruch w grze!";
+				}
 				// sprawdzenie czy jest więcej
-				if(cubes.size() < decisionNo) {
-					return previousPlayerLost(game.get());
+				if(cubes.size() < numberOfCubes) {
+					return previousPlayerLost(game, playingGamers);
 				} else {
-					return currentPlayerLost(game.get());
+					return currentPlayerLost(game, playingGamers);
 				}
 			case EXACTLY:
 				// sprawdzenie czy jest dokładnie tyle
-				if(cubes.size() == decisionNo) {
-					return currentPlayerWon(game.get());
+				if(cubes.size() == numberOfCubes) {
+					return currentPlayerWon(game, playingGamers);
 				} else {
-					return currentPlayerLost(game.get());
+					return currentPlayerLost(game, playingGamers);
 				}
 		}
-		
-		
-		
-		
-		return "";
+
+		return "brak ruchu!";
 	}
 
-	private String nextPlayerMove(IvoriesOfLierGame game) {
+	private String nextPlayerMove(IvoriesOfLierGame game, List<IvoriesOfLierGamer> playingGamers) {
 		// ruch następnego gracza
 
 		return "";
 	}
 
-	private String previousPlayerLost(IvoriesOfLierGame game) {
+	private String previousPlayerLost(IvoriesOfLierGame game, List<IvoriesOfLierGamer> playingGamers) {
 		// poprzedni gracz oddaje kość
 
 		return "";
 	}
 
-	private String currentPlayerLost(IvoriesOfLierGame game) {
+	private String currentPlayerLost(IvoriesOfLierGame game, List<IvoriesOfLierGamer> playingGamers) {
 		// bieżący gracz oddaje kość
 
 		return "";
 	}
 
-	private String currentPlayerWon(IvoriesOfLierGame game) {
+	private String currentPlayerWon(IvoriesOfLierGame game, List<IvoriesOfLierGamer> playingGamers) {
 		// wszyscy oddają po jednej kości
 
 		return "";
 	}
-
 }

@@ -1,12 +1,16 @@
 package com.felipe.gamesapp.entities.games.ivoriesOfLier;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class IvoriesOfLierGamer {
@@ -16,10 +20,13 @@ public class IvoriesOfLierGamer {
 
 	private Integer userId;
 	private Integer ivoriesOfLierGameId;
+	private boolean playing;
 	private Integer order;
 	private DecisionType decisionType;
-	private Integer lastDecisionNo;
-	private Integer lastDecisionVal;
+	private Integer decisionNumberOfCubes;
+	private Integer decisionCubeValue;
+	
+	private List<IvoriesOfLierCube> cubes;
 	
 	public Integer getId() {
 		return id;
@@ -45,6 +52,14 @@ public class IvoriesOfLierGamer {
 		this.ivoriesOfLierGameId = ivoriesOfLierGameId;
 	}
 
+	public boolean isPlaying() {
+		return playing;
+	}
+
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
+	}
+
 	public Integer getOrder() {
 		return order;
 	}
@@ -61,21 +76,33 @@ public class IvoriesOfLierGamer {
 		this.decisionType = decisionType;
 	}
 
-	public Integer getLastDecisionNo() {
-		return lastDecisionNo;
+	public Integer getDecisionNumberOfCubes() {
+		return decisionNumberOfCubes;
 	}
 
-	public void setLastDecisionNo(Integer lastDecisionNo) {
-		this.lastDecisionNo = lastDecisionNo;
+	public void setDecisionNumberOfCubes(Integer decisionNumberOfCubes) {
+		this.decisionNumberOfCubes = decisionNumberOfCubes;
 	}
 
-	public Integer getLastDecisionVal() {
-		return lastDecisionVal;
+	public Integer getDecisionCubeValue() {
+		return decisionCubeValue;
 	}
 
-	public void setLastDecisionVal(Integer lastDecisionVal) {
-		this.lastDecisionVal = lastDecisionVal;
+	public void setDecisionCubeValue(Integer decisionCubeValue) {
+		this.decisionCubeValue = decisionCubeValue;
 	}
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "gamerId", nullable = false)
+	private List<IvoriesOfLierCube> getCubes() {
+		return cubes;
+	}
+	
+	@SuppressWarnings("unused")
+	private void setCubes(List<IvoriesOfLierCube> cubes) {
+		this.cubes = cubes;
+	}
+
 
 	public enum DecisionType {
 		AT_LEAST(DecisionType.AT_LEAST_VALUE),

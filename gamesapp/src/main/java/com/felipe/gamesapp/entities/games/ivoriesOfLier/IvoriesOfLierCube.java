@@ -11,9 +11,9 @@ public class IvoriesOfLierCube {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	private Integer userId;
+	private Integer gamerId;
 	private Integer ivoriesOfLierGameId;
-	private Integer number;
+	private Integer value;
 
 	public Integer getId() {
 		return id;
@@ -21,11 +21,11 @@ public class IvoriesOfLierCube {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getUserId() {
-		return userId;
+	public Integer getGamerId() {
+		return gamerId;
 	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setGamerId(Integer gamerId) {
+		this.gamerId = gamerId;
 	}
 	public Integer getIvoriesOfLierGameId() {
 		return ivoriesOfLierGameId;
@@ -33,10 +33,10 @@ public class IvoriesOfLierCube {
 	public void setIvoriesOfLierGameId(Integer ivoriesOfLierGameId) {
 		this.ivoriesOfLierGameId = ivoriesOfLierGameId;
 	}
-	public Integer getNumber() {
-		return number;
+	public Integer getValue() {
+		return value;
 	}
-	public void setNumber(Integer number) {
-		this.number = number;
+	public void setValue(Integer value) {
+		this.value = value;
 	}
 }
