@@ -22,6 +22,11 @@ public class UserController {
 	public @ResponseBody Iterable<User> getAllUsers() {
 		return userRepository.findAll();
 	}
+	
+	@GetMapping(path="/getuser")
+	public @ResponseBody User getUser(@RequestParam String userName) {
+		return userRepository.findByName(userName);
+	}
 
 	@PostMapping(path="/newuser")
 	public @ResponseBody String createUser (@RequestParam String userName) {

@@ -23,6 +23,12 @@ public class RoomController {
 	public @ResponseBody Iterable<Room> getAllRooms() {
 		return roomRepository.findAll();
 	}
+	
+	@GetMapping(path="/getroom")
+	public @ResponseBody Room getRoom(@RequestParam String roomName,
+			@RequestParam int gameId) {
+		return roomRepository.findByNameAndGameId(roomName, gameId);
+	}
 
 	@PostMapping(path="/newroom")
 	public @ResponseBody String createRoom (@RequestParam String roomName,
