@@ -31,12 +31,12 @@ public class RoomController {
 	}
 
 	@PostMapping(path="/newroom")
-	public @ResponseBody String createRoom (@RequestParam String roomName,
+	public @ResponseBody Room createRoom(@RequestParam String roomName,
 			@RequestParam int ownerId, @RequestParam Games game) {
 		
 		Room roomExists = roomRepository.findByNameAndGameId(roomName, game.getValue());
 		if(roomExists != null) {
-			return "Room with name: " + roomName + " already exists.";
+			return roomExists;
 		}
 		
 		Room room = new Room();
@@ -45,6 +45,6 @@ public class RoomController {
 		room.setGameId(game.getValue());
 		roomRepository.save(room);
 		
-		return "Room with name: " + roomName + " has been created.";
+		return room;
 	}
 }

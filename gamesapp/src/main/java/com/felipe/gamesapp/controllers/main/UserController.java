@@ -29,17 +29,17 @@ public class UserController {
 	}
 
 	@PostMapping(path="/newuser")
-	public @ResponseBody String createUser (@RequestParam String userName) {
+	public @ResponseBody User createUser(@RequestParam String userName) {
 		
 		User userExists = userRepository.findByName(userName);
 		if(userExists != null) {
-			return "User with name: " + userName + " already exists.";
+			return userExists;
 		}
 		
 		User user = new User();
 		user.setName(userName);
 		userRepository.save(user);
 		
-		return "User with name: " + userName + " has been created.";
+		return user;
 	}
 }
