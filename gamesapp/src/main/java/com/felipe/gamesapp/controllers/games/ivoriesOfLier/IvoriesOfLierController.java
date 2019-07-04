@@ -46,10 +46,16 @@ public class IvoriesOfLierController {
 		// 1) czy pokój aktywny
 		// 2) czy conajmniej 2 graczy
 		// 3) czy pokój ma aktywną grę
-		Optional<Room> room = roomRepository.findById(roomId);
-		if(!room.isPresent()) {
-			
+		Optional<Room> roomOpt = roomRepository.findById(roomId);
+		if(roomOpt == null || !roomOpt.isPresent()) {
+			return "Room is not exist!";
 		}
+		Room room = roomOpt.get();
+		if(room.isActiveGame()) {
+			return "Game is being played";
+		}
+		// pobranie ich z pokoju TODO
+		Iterable<User> users = userRepository.findAll();
 		
 		// utworzenie gry
 		IvoriesOfLierGame game = new IvoriesOfLierGame();
@@ -59,8 +65,6 @@ public class IvoriesOfLierController {
 
 		Random random = new Random();
 		// utworzenie graczy
-		// pobranie ich z pokoju TODO
-		Iterable<User> users = userRepository.findAll();
 		int order = 1;
 		Integer firstPlayerId = null;
 		for(User user : users) {

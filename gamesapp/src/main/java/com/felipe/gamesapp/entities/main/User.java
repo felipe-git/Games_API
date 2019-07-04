@@ -1,9 +1,12 @@
 package com.felipe.gamesapp.entities.main;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -12,6 +15,9 @@ public class User {
     private Integer id;
 
     private String name;
+
+    @ManyToMany(mappedBy = "usersInRoom")
+    private Set<Room> userRooms;
 
     public Integer getId() {
 		return id;
