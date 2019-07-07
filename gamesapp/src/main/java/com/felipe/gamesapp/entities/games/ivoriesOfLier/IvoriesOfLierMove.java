@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 
 @Entity
@@ -16,9 +18,11 @@ public class IvoriesOfLierMove {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
 	private IvoriesOfLierGame game;
 
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
 	private IvoriesOfLierGame player;
 

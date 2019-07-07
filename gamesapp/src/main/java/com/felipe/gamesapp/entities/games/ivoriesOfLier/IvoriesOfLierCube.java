@@ -17,12 +17,9 @@ public class IvoriesOfLierCube {
 	private Integer value;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id")
-	private IvoriesOfLierGame game;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
 	private IvoriesOfLierPlayer player;
+
 
 	public Integer getId() {
 		return id;
@@ -36,13 +33,6 @@ public class IvoriesOfLierCube {
 	}
 	public void setValue(Integer value) {
 		this.value = value;
-	}
-
-	public IvoriesOfLierGame getGame() {
-		return game;
-	}
-	public void setGame(IvoriesOfLierGame game) {
-		this.game = game;
 	}
 
     public IvoriesOfLierPlayer getPlayer() {

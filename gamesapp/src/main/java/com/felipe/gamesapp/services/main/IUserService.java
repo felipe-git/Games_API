@@ -1,5 +1,5 @@
 package com.felipe.gamesapp.services.main;
 
-public interface RoomService {
+public interface IUserService {
 
 }

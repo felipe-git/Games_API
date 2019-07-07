@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.felipe.gamesapp.entities.main.Room;
@@ -19,14 +20,15 @@ public class IvoriesOfLierGame {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
 	private Room room;
 
 	@OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
 	private List<IvoriesOfLierPlayer> players = new ArrayList<>();
 
-	private Integer userIdPreviousMove;
-	private Integer userIdCurrentMove;
+	private Integer playerIdNextMove;
+
 
 	public Integer getId() {
 		return id;
@@ -48,18 +50,10 @@ public class IvoriesOfLierGame {
 	public void setPlayers(List<IvoriesOfLierPlayer> players) {
 		this.players = players;
 	}
-
-	public Integer getUserIdPreviousMove() {
-		return userIdPreviousMove;
+	public Integer getPlayerIdNextMove() {
+		return playerIdNextMove;
 	}
-	public void setUserIdPreviousMove(Integer userIdPreviousMove) {
-		this.userIdPreviousMove = userIdPreviousMove;
-	}
-
-	public Integer getUserIdCurrentMove() {
-		return userIdCurrentMove;
-	}
-	public void setUserIdCurrentMove(Integer userIdCurrentMove) {
-		this.userIdCurrentMove = userIdCurrentMove;
+	public void setPlayerIdNextMove(Integer playerIdNextMove) {
+		this.playerIdNextMove = playerIdNextMove;
 	}
 }

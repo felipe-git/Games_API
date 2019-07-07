@@ -1,7 +1,6 @@
 package com.felipe.gamesapp.controllers.games.ivoriesOfLier;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -14,15 +13,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierCube;
 import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierGame;
+import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierMove;
+import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierMove.DecisionType;
 import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierPlayer;
-import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierPlayer.DecisionType;
-import com.felipe.gamesapp.entities.main.Room;
-import com.felipe.gamesapp.entities.main.User;
 import com.felipe.gamesapp.repositories.games.ivoriesOfLier.IvoriesOfLierCubeRepository;
 import com.felipe.gamesapp.repositories.games.ivoriesOfLier.IvoriesOfLierGameRepository;
 import com.felipe.gamesapp.repositories.games.ivoriesOfLier.IvoriesOfLierPlayerRepository;
 import com.felipe.gamesapp.repositories.main.RoomRepository;
 import com.felipe.gamesapp.repositories.main.UserRepository;
+import com.felipe.gamesapp.services.games.ivoriesOfLier.IIvoriesOfLierGameService;
+import com.felipe.gamesapp.services.games.ivoriesOfLier.IIvoriesOfLierMoveService;
 
 @Controller
 @RequestMapping(path="/games/ivoriesoflier")
@@ -38,69 +38,34 @@ public class IvoriesOfLierController {
 	private RoomRepository roomRepository;
 	@Autowired
 	private UserRepository userRepository;
+	
+	
+	@Autowired
+	private IIvoriesOfLierGameService gameService;
+	@Autowired
+	private IIvoriesOfLierMoveService moveService;
 
 	@PostMapping(path="/start")
-	public @ResponseBody String startGame(@RequestParam int roomId) {
-		
-		// TODO: do sprawdzenia
-		// 1) czy pokój aktywny
-		// 2) czy conajmniej 2 graczy
-		// 3) czy pokój ma aktywną grę
-		Optional<Room> roomOpt = roomRepository.findById(roomId);
-		if(roomOpt == null || !roomOpt.isPresent()) {
-			return "Room is not exist!";
-		}
-		Room room = roomOpt.get();
-		if(room.isActiveGame()) {
-			return "Game is being played";
-		}
-		// pobranie ich z pokoju TODO
-		Iterable<User> users = userRepository.findAll();
-		
+	public @ResponseBody String startGame(@RequestParam int roomId) throws Exception {
 		// utworzenie gry
-		IvoriesOfLierGame game = new IvoriesOfLierGame();
-		game.setRoomId(roomId);
-		gameRepository.save(game);
-		
-
-		Random random = new Random();
-		// utworzenie graczy
-		int order = 1;
-		Integer firstPlayerId = null;
-		for(User user : users) {
-			IvoriesOfLierPlayer gamer = new IvoriesOfLierPlayer();
-			gamer.setUserId(user.getId());
-			gamer.setIvoriesOfLierGameId(game.getId());
-			gamer.setOrderValue(order);
-			gamer.setPlaying(true);
-			gamerRepository.save(gamer);
-			if(firstPlayerId == null) {
-				firstPlayerId = gamer.getId();
-			}
-			order++;
-			// tworzenie kości dla gracza
-			for(int i = 0; i <= 4; i++) {
-				IvoriesOfLierCube cube = new IvoriesOfLierCube();
-				cube.setIvoriesOfLierGameId(game.getId());
-				cube.setGamerId(gamer.getId());
-				cube.setValue(random.nextInt(5) + 1);
-				cubeRepository.save(cube);
-			}
-		}
-		
-		// następny ruch
-		game.setUserIdCurrentMove(firstPlayerId);
-		gameRepository.save(game);
+		IvoriesOfLierGame game = gameService.startGame(roomId);
 		
 		return "Game started!";
 	}
 
 	@PostMapping(path="/move")
-	public @ResponseBody String move(@RequestParam int gamerId,
+	public @ResponseBody String move(@RequestParam int playerId,
 			@RequestParam int gameId,
 			@RequestParam DecisionType decisionType,
 			@RequestParam int numberOfCubes,
 			@RequestParam int cubeValue) {
+		
+		IvoriesOfLierMove move = new IvoriesOfLierMove();
+		move.setDecisionType(decisionType);
+		move.setDecisionCubeValue(cubeValue);
+		move.setDecisionNumberOfCubes(numberOfCubes);
+		
+		moveService.makeMove(playerId, gameId, move);
 		
 		// pobranie gry
 		IvoriesOfLierGame game = gameRepository.findById(gameId).get();
@@ -112,9 +77,9 @@ public class IvoriesOfLierController {
 		// bieżący gracz
 		IvoriesOfLierPlayer currentPlayer = playingGamers.stream().filter(g -> g.getId().equals(gamerId)).findFirst().orElse(null);
 		// zapis jego ruchu
-		currentPlayer.setDecisionType(decisionType);
-		currentPlayer.setDecisionNumberOfCubes(numberOfCubes);
-		currentPlayer.setDecisionCubeValue(cubeValue);
+//		currentPlayer.setDecisionType(decisionType);
+//		currentPlayer.setDecisionNumberOfCubes(numberOfCubes);
+//		currentPlayer.setDecisionCubeValue(cubeValue);
 		gamerRepository.save(currentPlayer);
 		
 		// pobranie kości danego numeru

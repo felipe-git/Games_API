@@ -9,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.felipe.gamesapp.entities.main.User;
 
@@ -19,20 +21,21 @@ public class IvoriesOfLierPlayer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
 	private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
 	private IvoriesOfLierGame game;
-
-    @JoinColumn(name = "move_id")
-	private IvoriesOfLierMove lastMove;
 
 	@OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
 	private List<IvoriesOfLierCube> cubes = new ArrayList<>();
 
 	private boolean playing;
 	private Integer orderValue;
-	
+
+
 	public Integer getId() {
 		return id;
 	}

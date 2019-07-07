@@ -19,6 +19,7 @@ public class Room {
     private String name;
     private boolean activeGame;
     private Integer ownerId;
+    private Integer game;
 
 	@ManyToMany
 	@JoinTable(
@@ -53,5 +54,16 @@ public class Room {
 	}
 	public void setOwnerId(Integer ownerId) {
 		this.ownerId = ownerId;
+	}
+
+	public Integer getGame() {
+		return game;
+	}
+	public void setGame(Integer game) {
+		this.game = game;
+	}
+
+	public Set<User> getUsersInRoom() {
+		return usersInRoom;
 	}
 }

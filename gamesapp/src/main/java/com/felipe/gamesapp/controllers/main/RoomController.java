@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.felipe.gamesapp.constants.Games;
 import com.felipe.gamesapp.entities.main.Room;
 import com.felipe.gamesapp.repositories.main.RoomRepository;
+import com.felipe.gamesapp.services.main.IRoomService;
 
 @Controller
 @RequestMapping(path="/room")
@@ -18,6 +19,8 @@ public class RoomController {
 	
 	@Autowired
 	private RoomRepository roomRepository;
+	@Autowired
+	private IRoomService roomService;
 	
 	@GetMapping(path="/allrooms")
 	public @ResponseBody Iterable<Room> getAllRooms() {
@@ -33,17 +36,8 @@ public class RoomController {
 	@PostMapping(path="/newroom")
 	public @ResponseBody Room createRoom(@RequestParam String roomName,
 			@RequestParam int ownerId, @RequestParam Games game) {
-		
-		Room roomExists = roomRepository.findByNameAndGameId(roomName, game.getValue());
-		if(roomExists != null) {
-			return roomExists;
-		}
-		
-		Room room = new Room();
-		room.setName(roomName);
-		room.setOwnerId(ownerId);
-		room.setGameId(game.getValue());
-		roomRepository.save(room);
+
+		Room room = roomService.createRoomOrGetIfExist(roomName, ownerId, game);
 		
 		return room;
 	}

@@ -22,13 +22,13 @@ public class IvoriesOfLierCubeServiceImplIntegrationTest {
     static class EmployeeServiceImplTestContextConfiguration {
   
         @Bean
-        public IvoriesOfLierCubeService ivoriesOfLierCubeService() {
+        public IIvoriesOfLierCubeService ivoriesOfLierCubeService() {
             return new IvoriesOfLierCubeServiceImpl();
         }
     }
  
     @Autowired
-    private IvoriesOfLierCubeService ivoriesOfLierCubeService;
+    private IIvoriesOfLierCubeService ivoriesOfLierCubeService;
  
     @MockBean
     private IvoriesOfLierCubeRepository ivoriesOfLierCubeRepository;
@@ -37,15 +37,15 @@ public class IvoriesOfLierCubeServiceImplIntegrationTest {
    
     @Before
     public void setUp() {
-    	IvoriesOfLierCube cube = new IvoriesOfLierCube();
-		cube.setGamerId(4);
-		cube.setIvoriesOfLierGameId(1);
-		cube.setValue(6);
-		
-		List<IvoriesOfLierCube> found = ivoriesOfLierCubeRepository
-	    		.findByIvoriesOfLierGameIdAndValue(cube.getIvoriesOfLierGameId(), cube.getValue());
-
-        Mockito.when(found)
-          .thenReturn(found);
+//    	IvoriesOfLierCube cube = new IvoriesOfLierCube();
+//		cube.setGamerId(4);
+//		cube.setIvoriesOfLierGameId(1);
+//		cube.setValue(6);
+//		
+//		List<IvoriesOfLierCube> found = ivoriesOfLierCubeRepository
+//	    		.findByIvoriesOfLierGameIdAndValue(cube.getIvoriesOfLierGameId(), cube.getValue());
+//
+//        Mockito.when(found)
+//          .thenReturn(found);
     }
 }

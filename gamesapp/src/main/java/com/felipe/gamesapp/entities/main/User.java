@@ -19,10 +19,10 @@ public class User {
     @ManyToMany(mappedBy = "usersInRoom")
     private Set<Room> userRooms;
 
+
     public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -30,7 +30,6 @@ public class User {
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
