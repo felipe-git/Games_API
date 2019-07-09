@@ -29,8 +29,8 @@ public class RoomController {
 	
 	@GetMapping(path="/getroom")
 	public @ResponseBody Room getRoom(@RequestParam String roomName,
-			@RequestParam int gameId) {
-		return roomRepository.findByNameAndGameId(roomName, gameId);
+			@RequestParam int game) {
+		return roomRepository.findByNameAndGame(roomName, game);
 	}
 
 	@PostMapping(path="/newroom")

@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.felipe.gamesapp.constants.Games;
@@ -12,6 +13,7 @@ import com.felipe.gamesapp.entities.main.User;
 import com.felipe.gamesapp.repositories.main.RoomRepository;
 import com.felipe.gamesapp.services.main.IRoomService;
 
+@Service
 public class RoomServiceImpl implements IRoomService {
 
 	@Autowired
@@ -21,7 +23,7 @@ public class RoomServiceImpl implements IRoomService {
 	@Transactional
 	public Room createRoomOrGetIfExist(String name, int ownerId, Games game) {
 
-		Room roomExists = roomRepository.findByNameAndGameId(name, game.getValue());
+		Room roomExists = roomRepository.findByNameAndGame(name, game.getValue());
 		if(roomExists != null) {
 			return roomExists;
 		}

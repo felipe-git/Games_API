@@ -1,11 +1,15 @@
 package com.felipe.gamesapp.services.games.ivoriesOfLier.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierGame;
+import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierPlayer;
 import com.felipe.gamesapp.entities.main.Room;
 import com.felipe.gamesapp.entities.main.User;
 import com.felipe.gamesapp.repositories.games.ivoriesOfLier.IvoriesOfLierGameRepository;
@@ -13,6 +17,7 @@ import com.felipe.gamesapp.services.games.ivoriesOfLier.IIvoriesOfLierGameServic
 import com.felipe.gamesapp.services.games.ivoriesOfLier.IIvoriesOfLierPlayerService;
 import com.felipe.gamesapp.services.main.IRoomService;
 
+@Service
 public class IvoriesOfLierGameServiceImpl implements IIvoriesOfLierGameService {
 
 	@Autowired
@@ -54,11 +59,14 @@ public class IvoriesOfLierGameServiceImpl implements IIvoriesOfLierGameService {
 		if(usersInRoom == null || usersInRoom.size() < 2) {
 			throw new Exception("Not enough users in room!");
 		}
-		
+
+		List<IvoriesOfLierPlayer> players = new ArrayList<IvoriesOfLierPlayer>(usersInRoom.size());
 		int order = 1;
 		for(User user : usersInRoom) {
-			playerService.createPlayer(user, game, order);
+			IvoriesOfLierPlayer player = playerService.createPlayer(user, game, order);
+			players.add(player);
 			order++;
 		}
+		game.setPlayers(players);
 	}
 }

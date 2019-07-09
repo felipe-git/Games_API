@@ -28,6 +28,7 @@ public class IvoriesOfLierGame {
 	private List<IvoriesOfLierPlayer> players = new ArrayList<>();
 
 	private Integer playerIdNextMove;
+	private Integer playerIdPreviousMove;
 
 
 	public Integer getId() {
@@ -50,10 +51,18 @@ public class IvoriesOfLierGame {
 	public void setPlayers(List<IvoriesOfLierPlayer> players) {
 		this.players = players;
 	}
+
 	public Integer getPlayerIdNextMove() {
 		return playerIdNextMove;
 	}
 	public void setPlayerIdNextMove(Integer playerIdNextMove) {
 		this.playerIdNextMove = playerIdNextMove;
+	}
+
+	public Integer getPlayerIdPreviousMove() {
+		return playerIdPreviousMove;
+	}
+	public void setPlayerIdPreviousMove(Integer playerIdPreviousMove) {
+		this.playerIdPreviousMove = playerIdPreviousMove;
 	}
 }

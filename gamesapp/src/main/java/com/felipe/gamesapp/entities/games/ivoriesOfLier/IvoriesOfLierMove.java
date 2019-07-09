@@ -24,7 +24,7 @@ public class IvoriesOfLierMove {
 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
-	private IvoriesOfLierGame player;
+	private IvoriesOfLierPlayer player;
 
 	private DecisionType decisionType;
 	private Integer decisionNumberOfCubes;
@@ -45,10 +45,10 @@ public class IvoriesOfLierMove {
 		this.game = game;
 	}
 
-	public IvoriesOfLierGame getPlayer() {
+	public IvoriesOfLierPlayer getPlayer() {
 		return player;
 	}
-	public void setPlayer(IvoriesOfLierGame player) {
+	public void setPlayer(IvoriesOfLierPlayer player) {
 		this.player = player;
 	}
 

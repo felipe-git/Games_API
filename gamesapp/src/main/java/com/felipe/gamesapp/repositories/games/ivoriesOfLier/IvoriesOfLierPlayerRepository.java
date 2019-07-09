@@ -8,7 +8,7 @@ import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierPlayer;
 
 public interface IvoriesOfLierPlayerRepository extends CrudRepository<IvoriesOfLierPlayer, Integer> {
 
-	public List<IvoriesOfLierPlayer> findByIvoriesOfLierGameIdAndPlayingOrderByOrderValue(int ivoriesOfLierGameId, boolean playing);
+	public List<IvoriesOfLierPlayer> findByGame_IdAndPlayingOrderByOrderValue(int gameId, boolean playing);
 
-	public List<IvoriesOfLierPlayer> findByIvoriesOfLierGameId(Integer ivoriesOfLierGameId);
+	public List<IvoriesOfLierPlayer> findByGame_Id(Integer gameId);
 }

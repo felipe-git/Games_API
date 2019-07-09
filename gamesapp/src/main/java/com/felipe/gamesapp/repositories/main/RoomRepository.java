@@ -6,5 +6,5 @@ import com.felipe.gamesapp.entities.main.Room;
 
 public interface RoomRepository extends CrudRepository<Room, Integer> {
 
-	public Room findByNameAndGameId(String name, int gameId);
+	public Room findByNameAndGame(String name, int game);
 }

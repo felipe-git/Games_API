@@ -9,5 +9,5 @@ public interface IIvoriesOfLierCubeService {
 
 	public List<IvoriesOfLierCube> createPlayerCubes(IvoriesOfLierPlayer player);
 
-	public List<IvoriesOfLierCube> getPlayerCubes(int ivoriesOfLierGameId, int value);
+	public List<IvoriesOfLierCube> getPlayerCubesByValue(List<IvoriesOfLierPlayer> players, int value);
 }

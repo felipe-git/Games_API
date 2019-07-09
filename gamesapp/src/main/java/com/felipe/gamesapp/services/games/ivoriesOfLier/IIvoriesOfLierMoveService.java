@@ -4,5 +4,5 @@ import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierMove;
 
 public interface IIvoriesOfLierMoveService {
 
-	public void makeMove(int playerId, int gameId, IvoriesOfLierMove move);
+	public String makeMove(int playerId, int gameId, IvoriesOfLierMove move) throws Exception;
 }

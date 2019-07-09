@@ -1,5 +1,10 @@
 package com.felipe.gamesapp.services.main.impl;
 
-public class UserServiceImpl {
+import org.springframework.stereotype.Service;
+
+import com.felipe.gamesapp.services.main.IUserService;
+
+@Service
+public class UserServiceImpl implements IUserService {
 
 }
