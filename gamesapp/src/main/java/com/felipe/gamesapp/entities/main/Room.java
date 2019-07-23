@@ -19,7 +19,7 @@ public class Room {
     private Integer id;
 
     private String name;
-    private boolean activeGame;
+    private RoomState state;
     private Integer ownerId;
     private Integer game;
 
@@ -44,11 +44,11 @@ public class Room {
 		this.name = name;
 	}
 
-	public boolean isActiveGame() {
-		return activeGame;
+	public RoomState getState() {
+		return state;
 	}
-	public void setActiveGame(boolean activeGame) {
-		this.activeGame = activeGame;
+	public void setState(RoomState state) {
+		this.state = state;
 	}
 
 	public Integer getOwnerId() {
@@ -67,5 +67,11 @@ public class Room {
 
 	public Set<User> getUsersInRoom() {
 		return usersInRoom;
+	}
+
+	public enum RoomState {
+		INACTIVE_GAME,
+		ACTIVE_GAME,
+		CLOSED
 	}
 }

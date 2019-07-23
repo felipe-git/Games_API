@@ -6,5 +6,5 @@ import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierMove;
 
 public interface IvoriesOfLierMoveRepository extends CrudRepository<IvoriesOfLierMove, Integer> {
 	
-	public IvoriesOfLierMove findByPlayerIdAndGameIdOrderByIdDesc(int playerId, int gameId);
+	public IvoriesOfLierMove findFirstByPlayerIdAndGameIdOrderByIdDesc(int playerId, int gameId);
 }

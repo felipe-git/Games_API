@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.felipe.gamesapp.entities.main.User;
 import com.felipe.gamesapp.repositories.main.UserRepository;
+import com.felipe.gamesapp.services.main.IUserService;
 
 @Controller
 @RequestMapping(path="/user")
@@ -17,6 +18,8 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private IUserService userService;
 	
 	@GetMapping(path="/allusers")
 	public @ResponseBody Iterable<User> getAllUsers() {
@@ -30,15 +33,16 @@ public class UserController {
 
 	@PostMapping(path="/newuser")
 	public @ResponseBody User createUser(@RequestParam String userName) {
+
+		User user = userService.createUser(userName);
 		
-		User userExists = userRepository.findByName(userName);
-		if(userExists != null) {
-			return userExists;
-		}
+		return user;
+	}
+
+	@PostMapping(path="/jointoroom")
+	public @ResponseBody User joinToRoom(@RequestParam int userId, @RequestParam int roomId) throws Exception {
 		
-		User user = new User();
-		user.setName(userName);
-		userRepository.save(user);
+		User user = userService.joinToRoom(userId, roomId);
 		
 		return user;
 	}

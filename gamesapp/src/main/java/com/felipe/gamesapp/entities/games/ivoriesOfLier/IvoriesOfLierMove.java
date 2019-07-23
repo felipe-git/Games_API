@@ -74,35 +74,8 @@ public class IvoriesOfLierMove {
 	}
     
 	public enum DecisionType {
-		AT_LEAST(DecisionType.AT_LEAST_VALUE),
-		LESS_THAN(DecisionType.LESS_THAN_VALUE),
-		EXACTLY(DecisionType.EXACTLY_VALUE);
-		
-		public static final char AT_LEAST_VALUE = 'A';
-		public static final char LESS_THAN_VALUE = 'L';
-		public static final char EXACTLY_VALUE = 'E';
-		
-		public final char value;
-		private static final Map<Character, DecisionType> values;
-		static {
-			values = new HashMap<Character, DecisionType>();
-			for(DecisionType state : values()) {
-				values.put(state.value, state);
-			}
-		}
-
-		private DecisionType(char value) {
-			this.value = value;
-		}
-		public Character getValue() {
-			return value;
-		}
-
-		public static final char encode(DecisionType type) {
-			return type.value;
-		}
-		public static final DecisionType decode(char value) {
-			return values.get(value);
-		}
+		AT_LEAST,
+		LESS_THAN,
+		EXACTLY
 	}
 }

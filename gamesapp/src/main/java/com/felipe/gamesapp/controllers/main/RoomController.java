@@ -35,7 +35,7 @@ public class RoomController {
 
 	@PostMapping(path="/newroom")
 	public @ResponseBody Room createRoom(@RequestParam String roomName,
-			@RequestParam int ownerId, @RequestParam Games game) {
+			@RequestParam int ownerId, @RequestParam Games game) throws Exception {
 
 		Room room = roomService.createRoomOrGetIfExist(roomName, ownerId, game);
 		

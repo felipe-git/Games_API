@@ -56,7 +56,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 		return makeMove(move, game);
 	}
 
-	private String makeMove(IvoriesOfLierMove move, IvoriesOfLierGame game) {
+	private String makeMove(IvoriesOfLierMove move, IvoriesOfLierGame game) throws Exception {
 		List<IvoriesOfLierPlayer> activePlayers = game.getPlayers();
 		// pobranie kości danego numeru
 		List<IvoriesOfLierCube> cubes = cubeService.getPlayerCubesByValue(activePlayers, move.getDecisionCubeValue());
@@ -65,7 +65,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 				return nextPlayerMove(game, activePlayers);
 			case LESS_THAN:
 				if(game.getPlayerIdPreviousMove() == null) {
-					return "błąd! pierwszy ruch w grze!";
+					throw new Exception("First move in game!");
 				}
 				// sprawdzenie czy jest więcej
 				if(cubes.size() < move.getDecisionNumberOfCubes()) {
@@ -81,7 +81,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 					return currentPlayerLost(game, activePlayers);
 				}
 		}
-		return "";
+		return "Nothing happened!";
 	}
 
 	private String nextPlayerMove(IvoriesOfLierGame game, List<IvoriesOfLierPlayer> activePlayers) {
@@ -122,7 +122,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 		takeAwayOneCube(previousPlayer, playingGamers);
 		
 		if(playingGamers.size() == 1) {
-			return "Koniec gry";
+			return "Game over! Player " + playingGamers.get(0).getUser().getName() + " won!";
 		}
 		
 		nextPlayerMove(game, playingGamers);
@@ -134,7 +134,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 		// losowanie kości graczom
 		drawCubes(playingGamers);
 
-		return "";
+		return "Player " + previousPlayer.getUser().getName() + " lost one cube!";
 	}
 
 	private String currentPlayerLost(IvoriesOfLierGame game, List<IvoriesOfLierPlayer> playingGamers) {
@@ -148,7 +148,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 		takeAwayOneCube(currentPlayer, playingGamers);
 
 		if(playingGamers.size() == 1) {
-			return "Koniec gry";
+			return "Game over! Player " + playingGamers.get(0).getUser().getName() + " won!";
 		}
 		
 		nextPlayerMove(game, playingGamers);
@@ -160,7 +160,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 		// losowanie kości graczom
 		drawCubes(playingGamers);
 
-		return "";
+		return "Player " + currentPlayer.getUser().getName() + " lost one cube!";
 	}
 
 	private String currentPlayerWon(IvoriesOfLierGame game, List<IvoriesOfLierPlayer> playingGamers) {
@@ -175,7 +175,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 		}
 
 		if(playingGamers.size() == 1) {
-			return "Koniec gry";
+			return "Game over! Player " + playingGamers.get(0).getUser().getName() + " won!";
 		}
 
 		// usunięcie poprzedniego ruchu (nowe rozdanie)
@@ -185,7 +185,9 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 		// losowanie kości graczom
 		drawCubes(playingGamers);
 
-		return "";
+		// poprzedni gracz
+		IvoriesOfLierPlayer wonPlayer = playingGamers.stream().filter(g -> g.getId().equals(userIdCurrentMove)).findFirst().orElse(null);
+		return "Player " + wonPlayer.getUser().getName() + " won! Others lost one cube.";
 	}
 
 	private void takeAwayOneCube(IvoriesOfLierPlayer player, List<IvoriesOfLierPlayer> playingGamers) {
@@ -214,7 +216,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 
 	private void invalidateMove(IvoriesOfLierMove move, IvoriesOfLierGame game) throws Exception {
 		if(game.getPlayerIdPreviousMove() != null) {
-			IvoriesOfLierMove lastMove = moveRepository.findByPlayerIdAndGameIdOrderByIdDesc(game.getPlayerIdPreviousMove(), game.getId());
+			IvoriesOfLierMove lastMove = moveRepository.findFirstByPlayerIdAndGameIdOrderByIdDesc(game.getPlayerIdPreviousMove(), game.getId());
 			switch(move.getDecisionType()) {
 				case AT_LEAST:
 					if(move.getDecisionNumberOfCubes() < lastMove.getDecisionNumberOfCubes()) {

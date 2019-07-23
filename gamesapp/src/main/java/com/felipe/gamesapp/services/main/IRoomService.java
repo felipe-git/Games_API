@@ -5,7 +5,7 @@ import com.felipe.gamesapp.entities.main.Room;
 
 public interface IRoomService {
 
-	public Room createRoomOrGetIfExist(String name, int ownerId, Games game);
+	public Room createRoomOrGetIfExist(String name, int ownerId, Games game) throws Exception;
 	
 	public Room getRoom(int roomId) throws Exception;
 }

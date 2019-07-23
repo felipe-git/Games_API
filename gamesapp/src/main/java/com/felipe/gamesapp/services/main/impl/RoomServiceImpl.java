@@ -10,18 +10,22 @@ import org.springframework.transaction.annotation.Transactional;
 import com.felipe.gamesapp.constants.Games;
 import com.felipe.gamesapp.entities.main.Room;
 import com.felipe.gamesapp.entities.main.User;
+import com.felipe.gamesapp.entities.main.Room.RoomState;
 import com.felipe.gamesapp.repositories.main.RoomRepository;
 import com.felipe.gamesapp.services.main.IRoomService;
+import com.felipe.gamesapp.services.main.IUserService;
 
 @Service
 public class RoomServiceImpl implements IRoomService {
 
 	@Autowired
 	private RoomRepository roomRepository;
+	@Autowired
+	private IUserService userService;
 
 	@Override
 	@Transactional
-	public Room createRoomOrGetIfExist(String name, int ownerId, Games game) {
+	public Room createRoomOrGetIfExist(String name, int ownerId, Games game) throws Exception {
 
 		Room roomExists = roomRepository.findByNameAndGame(name, game.getValue());
 		if(roomExists != null) {
@@ -32,7 +36,12 @@ public class RoomServiceImpl implements IRoomService {
 		room.setName(name);
 		room.setOwnerId(ownerId);
 		room.setGame(game.getValue());
+		room.setState(RoomState.INACTIVE_GAME);
 		roomRepository.save(room);
+		
+		userService.joinToRoom(ownerId, room.getId());
+		
+		room = roomRepository.findById(room.getId()).get();
 		
 		return room;
 	}
@@ -45,7 +54,7 @@ public class RoomServiceImpl implements IRoomService {
 			throw new Exception("Room with id = " + roomId + " does not exist!");
 		}
 		Room room = roomOpt.get();
-		if(room.isActiveGame()) {
+		if(RoomState.ACTIVE_GAME == room.getState()) {
 			throw new Exception("Game is being played!");
 		}
 		
