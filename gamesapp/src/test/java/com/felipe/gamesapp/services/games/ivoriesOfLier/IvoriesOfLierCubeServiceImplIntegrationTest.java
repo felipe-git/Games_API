@@ -19,7 +19,7 @@ import com.felipe.gamesapp.services.games.ivoriesOfLier.impl.IvoriesOfLierCubeSe
 public class IvoriesOfLierCubeServiceImplIntegrationTest {
 
 	@TestConfiguration
-    static class EmployeeServiceImplTestContextConfiguration {
+    static class IvoriesOfLierCubeServiceImplTestContextConfiguration {
   
         @Bean
         public IIvoriesOfLierCubeService ivoriesOfLierCubeService() {

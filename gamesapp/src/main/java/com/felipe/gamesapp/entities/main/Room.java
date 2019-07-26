@@ -15,7 +15,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Room {
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

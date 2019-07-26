@@ -18,7 +18,7 @@ import com.felipe.gamesapp.entities.main.User;
 @Entity
 public class IvoriesOfLierPlayer {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY)

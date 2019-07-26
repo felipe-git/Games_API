@@ -45,10 +45,9 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 
 		invalidateMove(move, game);
 
-		List<IvoriesOfLierPlayer> players = game.getPlayers();
-		// bieżący gracz
-		IvoriesOfLierPlayer currentPlayer = players.stream().filter(g -> g.getId().equals(playerId)).findFirst().orElse(null);
-		// zapis ruchu
+		IvoriesOfLierPlayer currentPlayer = game.getPlayers().stream()
+				.filter(g -> g.getId().equals(playerId)).findFirst().orElse(null);
+
 		move.setGame(game);
 		move.setPlayer(currentPlayer);
 		moveRepository.save(move);
@@ -58,7 +57,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 
 	private String makeMove(IvoriesOfLierMove move, IvoriesOfLierGame game) throws Exception {
 		List<IvoriesOfLierPlayer> activePlayers = game.getPlayers();
-		// pobranie kości danego numeru
+
 		List<IvoriesOfLierCube> cubes = cubeService.getPlayerCubesByValue(activePlayers, move.getDecisionCubeValue());
 		switch(move.getDecisionType()) {
 			case AT_LEAST:
@@ -67,14 +66,12 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 				if(game.getPlayerIdPreviousMove() == null) {
 					throw new Exception("First move in game!");
 				}
-				// sprawdzenie czy jest więcej
 				if(cubes.size() < move.getDecisionNumberOfCubes()) {
 					return previousPlayerLost(game, activePlayers);
 				} else {
 					return currentPlayerLost(game, activePlayers);
 				}
 			case EXACTLY:
-				// sprawdzenie czy jest dokładnie tyle
 				if(cubes.size() == move.getDecisionNumberOfCubes()) {
 					return currentPlayerWon(game, activePlayers);
 				} else {
@@ -85,11 +82,8 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 	}
 
 	private String nextPlayerMove(IvoriesOfLierGame game, List<IvoriesOfLierPlayer> activePlayers) {
-		// ruch następnego gracza
-		
-		// szukanie następnego gracza do ruchu
+
 		final int previousPlayerOrder;
-		// bieżący gracz
 		IvoriesOfLierPlayer currentPlayer = activePlayers.stream().filter(g -> g.getId().equals(game.getPlayerIdNextMove())).findFirst().orElse(null);
 		if(currentPlayer == null) {
 			// gracz przed chwilą odpadł z gry
@@ -101,7 +95,7 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 			game.setPlayerIdPreviousMove(userIdCurrentMove);
 			previousPlayerOrder = currentPlayer.getOrderValue();
 		}
-		// kolejny gracz lub pierwszy na liście
+
 		IvoriesOfLierPlayer nextPlayer = activePlayers.stream().filter(g -> g.getOrderValue() > previousPlayerOrder)
 				.findFirst().orElse(activePlayers.get(0));
 		game.setPlayerIdNextMove(nextPlayer.getId());
@@ -112,13 +106,10 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 	}
 
 	private String previousPlayerLost(IvoriesOfLierGame game, List<IvoriesOfLierPlayer> playingGamers) {
-		// poprzedni gracz oddaje kość
 
 		Integer userIdPreviousMove = game.getPlayerIdPreviousMove();
-		// poprzedni gracz
 		IvoriesOfLierPlayer previousPlayer = playingGamers.stream().filter(g -> g.getId().equals(userIdPreviousMove)).findFirst().orElse(null);
 
-		// zabranie jednej kości
 		takeAwayOneCube(previousPlayer, playingGamers);
 		
 		if(playingGamers.size() == 1) {
@@ -127,24 +118,19 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 		
 		nextPlayerMove(game, playingGamers);
 
-		// usunięcie poprzedniego ruchu (nowe rozdanie)
 		game.setPlayerIdPreviousMove(null);
 		gameRepository.save(game);
-		
-		// losowanie kości graczom
+
 		drawCubes(playingGamers);
 
 		return "Player " + previousPlayer.getUser().getName() + " lost one cube!";
 	}
 
 	private String currentPlayerLost(IvoriesOfLierGame game, List<IvoriesOfLierPlayer> playingGamers) {
-		// bieżący gracz oddaje kość
 
 		Integer userIdCurrentMove = game.getPlayerIdNextMove();
-		// poprzedni gracz
 		IvoriesOfLierPlayer currentPlayer = playingGamers.stream().filter(g -> g.getId().equals(userIdCurrentMove)).findFirst().orElse(null);
 
-		// zabranie jednej kości
 		takeAwayOneCube(currentPlayer, playingGamers);
 
 		if(playingGamers.size() == 1) {
@@ -153,21 +139,18 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 		
 		nextPlayerMove(game, playingGamers);
 
-		// usunięcie poprzedniego ruchu (nowe rozdanie)
 		game.setPlayerIdPreviousMove(null);
 		gameRepository.save(game);
-		
-		// losowanie kości graczom
+
 		drawCubes(playingGamers);
 
 		return "Player " + currentPlayer.getUser().getName() + " lost one cube!";
 	}
 
 	private String currentPlayerWon(IvoriesOfLierGame game, List<IvoriesOfLierPlayer> playingGamers) {
-		// wszyscy oddają po jednej kości
-		
+
 		Integer userIdCurrentMove = game.getPlayerIdNextMove();
-		// pozostali gracze
+
 		List<IvoriesOfLierPlayer> otherPlayers = playingGamers.stream().filter(g -> !g.getId().equals(userIdCurrentMove))
 				.collect(Collectors.toList());
 		for(IvoriesOfLierPlayer otherPlayer : otherPlayers) {
@@ -178,14 +161,11 @@ public class IvoriesOfLierMoveServiceImpl implements IIvoriesOfLierMoveService {
 			return "Game over! Player " + playingGamers.get(0).getUser().getName() + " won!";
 		}
 
-		// usunięcie poprzedniego ruchu (nowe rozdanie)
 		game.setPlayerIdPreviousMove(null);
 		gameRepository.save(game);
-		
-		// losowanie kości graczom
+
 		drawCubes(playingGamers);
 
-		// poprzedni gracz
 		IvoriesOfLierPlayer wonPlayer = playingGamers.stream().filter(g -> g.getId().equals(userIdCurrentMove)).findFirst().orElse(null);
 		return "Player " + wonPlayer.getUser().getName() + " won! Others lost one cube.";
 	}

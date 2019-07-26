@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class IvoriesOfLierCube {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private Integer value;

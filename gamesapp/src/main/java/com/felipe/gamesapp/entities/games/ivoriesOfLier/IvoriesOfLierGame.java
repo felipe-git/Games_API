@@ -17,7 +17,7 @@ import com.felipe.gamesapp.entities.main.Room;
 @Entity
 public class IvoriesOfLierGame {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
