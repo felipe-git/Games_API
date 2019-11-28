@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierCube;
+import com.felipe.gamesapp.entities.games.ivoriesOfLier.IvoriesOfLierPlayer;
 import com.felipe.gamesapp.repositories.games.ivoriesOfLier.IvoriesOfLierCubeRepository;
 import com.felipe.gamesapp.services.games.ivoriesOfLier.impl.IvoriesOfLierCubeServiceImpl;
 
@@ -37,6 +38,8 @@ public class IvoriesOfLierCubeServiceImplIntegrationTest {
    
     @Before
     public void setUp() {
+//    	IvoriesOfLierPlayer player = new IvoriesOfLierPlayer();
+//    	player.se
 //    	IvoriesOfLierCube cube = new IvoriesOfLierCube();
 //		cube.setGamerId(4);
 //		cube.setIvoriesOfLierGameId(1);

@@ -22,6 +22,12 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	@Transactional
+	public User findUser(String userName) {
+		return userRepository.findByName(userName);
+	}
+
+	@Override
+	@Transactional
 	public User createUser(String userName) {
 		User userExists = userRepository.findByName(userName);
 		if(userExists != null) {
@@ -30,7 +36,7 @@ public class UserServiceImpl implements IUserService {
 		
 		User user = new User();
 		user.setName(userName);
-		userRepository.save(user);
+		user = userRepository.save(user);
 		
 		return user;
 	}
