@@ -18,7 +18,7 @@ public class UserRepositoryIntegrationTest {
 	@Autowired
 	private TestEntityManager entityManager;
 	@Autowired
-	private UserRepository userRepository;
+	private UserIvoriesRepository userRepository;
 
 	@Test
 	public void whenFindByName_thenReturnUser() {

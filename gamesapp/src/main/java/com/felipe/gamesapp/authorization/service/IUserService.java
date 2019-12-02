@@ -11,10 +11,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
+import com.felipe.gamesapp.authorization.eventsAndListeners.exception.UserAlreadyExistException;
 import com.felipe.gamesapp.authorization.persistence.entity.PasswordResetToken;
 import com.felipe.gamesapp.authorization.persistence.entity.User;
 import com.felipe.gamesapp.authorization.persistence.entity.VerificationToken;
-import com.felipe.gamesapp.authorization.web.exception.UserAlreadyExistException;
 import com.felipe.gamesapp.authorization.web.viewModel.UserView;
 
 /**

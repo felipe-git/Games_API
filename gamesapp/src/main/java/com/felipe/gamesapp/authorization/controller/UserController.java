@@ -15,7 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.felipe.gamesapp.authorization.persistence.model.ActiveUserStore;
+import com.felipe.gamesapp.authorization.domain.model.ActiveUserStore;
 import com.felipe.gamesapp.authorization.service.IUserService;
 
 /**

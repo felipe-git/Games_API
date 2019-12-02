@@ -1,12 +1,12 @@
 /*
- * com.felipe.gamesapp.authorization.persistence.model.ActiveUserStore (28 lis
- * 2019)
+ * com.felipe.gamesapp.authorization.eventsAndListeners.model.ActiveUserStore (2
+ * gru 2019)
  * 
  * ActiveUserStore.java
  * 
  * Copyright 2019 EXPERT SOLUTIONS Sp. z o. o.
  */
-package com.felipe.gamesapp.authorization.persistence.model;
+package com.felipe.gamesapp.authorization.domain.model;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.felipe.gamesapp.entities.main.User;
-import com.felipe.gamesapp.repositories.main.UserRepository;
+import com.felipe.gamesapp.repositories.main.UserIvoriesRepository;
 import com.felipe.gamesapp.services.main.IUserService;
 
-@Controller
+@Controller("oldUserController")
 @RequestMapping(path="/user")
 public class UserController {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserIvoriesRepository userRepository;
 	@Autowired
 	private IUserService userService;
 	

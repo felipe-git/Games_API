@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.felipe.gamesapp.entities.main.User;
 import com.felipe.gamesapp.repositories.main.RoomRepository;
-import com.felipe.gamesapp.repositories.main.UserRepository;
+import com.felipe.gamesapp.repositories.main.UserIvoriesRepository;
 import com.felipe.gamesapp.services.main.impl.UserServiceImpl;
 
 @RunWith(SpringRunner.class)
@@ -35,7 +35,7 @@ public class UserServiceImplIntegrationTest {
 	@Autowired
 	private IUserService userService;
     @MockBean
-    private UserRepository userRepository;
+    private UserIvoriesRepository userRepository;
     @MockBean
     private RoomRepository roomRepository;
 

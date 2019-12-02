@@ -6,7 +6,7 @@
  * 
  * Copyright 2019 EXPERT SOLUTIONS Sp. z o. o.
  */
-package com.felipe.gamesapp.authorization.web.exception;
+package com.felipe.gamesapp.authorization.eventsAndListeners.exception;
 
 /**
  * 
@@ -15,7 +15,7 @@ package com.felipe.gamesapp.authorization.web.exception;
  */
 public final class UserAlreadyExistException extends RuntimeException {
 
-	private static final long serialVersionUID = 5861310537366287163L;
+	private static final long serialVersionUID = 4457028685495689252L;
 
 	public UserAlreadyExistException() {
 		super();

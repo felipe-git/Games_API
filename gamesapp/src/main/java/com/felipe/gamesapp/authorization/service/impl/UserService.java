@@ -19,8 +19,15 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.felipe.gamesapp.authorization.eventsAndListeners.exception.UserAlreadyExistException;
+import com.felipe.gamesapp.authorization.persistence.entity.PasswordResetToken;
 import com.felipe.gamesapp.authorization.persistence.entity.User;
 import com.felipe.gamesapp.authorization.persistence.entity.VerificationToken;
 import com.felipe.gamesapp.authorization.persistence.repository.PasswordResetTokenRepository;
@@ -28,7 +35,6 @@ import com.felipe.gamesapp.authorization.persistence.repository.RoleRepository;
 import com.felipe.gamesapp.authorization.persistence.repository.UserRepository;
 import com.felipe.gamesapp.authorization.persistence.repository.VerificationTokenRepository;
 import com.felipe.gamesapp.authorization.service.IUserService;
-import com.felipe.gamesapp.authorization.web.exception.UserAlreadyExistException;
 import com.felipe.gamesapp.authorization.web.viewModel.UserView;
 
 /**
@@ -222,7 +228,5 @@ public class UserService implements IUserService {
 						return o.toString();
 					}
 				}).collect(Collectors.toList());
-
 	}
-
 }

@@ -9,14 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.felipe.gamesapp.entities.main.Room;
 import com.felipe.gamesapp.entities.main.User;
 import com.felipe.gamesapp.repositories.main.RoomRepository;
-import com.felipe.gamesapp.repositories.main.UserRepository;
+import com.felipe.gamesapp.repositories.main.UserIvoriesRepository;
 import com.felipe.gamesapp.services.main.IUserService;
 
 @Service
 public class UserServiceImpl implements IUserService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserIvoriesRepository userRepository;
 	@Autowired
 	private RoomRepository roomRepository;
 
